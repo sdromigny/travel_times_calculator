@@ -1,6 +1,9 @@
 import numpy as np
+import obspy
 from obspy.taup import TauPyModel
 import matplotlib as plt
+from obspy.taup import taup_create
+
 
 model = TauPyModel(model="prem")
 
@@ -15,5 +18,9 @@ file_path = 'DWAK.csv'
 
 # Read the .bm file into a DataFrame
 df = pd.read_csv(file_path,header=None)
+nd_model=df.values
 
-print(df)
+
+
+# Call the build_taup_model method
+DWAK = taup_create.build_taup_model(nd_model)
