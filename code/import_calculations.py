@@ -26,9 +26,11 @@ import pandas as pd
 
 #rearrange data set
 file_path='DWAK.csv'
+#file structure of DWAK.nd : NAME DWAK - COLUMNS radius rho vpv vsv qka qmu vsh vph eta
 df = pd.read_csv (file_path,header=None)
 df = df.drop(df.columns[[4, 5, 6,7,8,9]], axis=1)
 
+#reformat DWAK file so that it is usable for obspy
 if 1 in df.columns:
     col0 = df.pop(1)
     df.insert(len(df.columns), '0', col0)
@@ -37,10 +39,12 @@ else:
     # You can raise an error, display a message, or perform other actions.
     print("Column '1' does not exist in the DataFrame.")
 print(df)
-######save modified file as nd
 
-file_path_in_nd='DWAK.nd'
-#file structure of DWAK.nd : NAME DWAK - COLUMNS radius rho vpv vsv qka qmu vsh vph eta
+######save modified file as nd
+df.to_csv('DWAK_nd', sep='\t', index=False)
+
+file_path_in_nd='DWAK_fine.nd' 
+
 model_DWAK=build_taup_model(file_path_in_nd, output_folder=None, verbose=True)
 
-print(model_DWAK)
+#print(model_DWAK)
